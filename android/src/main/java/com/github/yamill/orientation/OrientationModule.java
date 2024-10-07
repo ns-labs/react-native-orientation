@@ -150,8 +150,8 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
             FLog.e(ReactConstants.TAG, "no activity to register receiver");
             return;
         }
-        activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
-    }
+        activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"), Context.RECEIVER_NOT_EXPORTED);
+     }
     @Override
     public void onHostPause() {
         final Activity activity = getCurrentActivity();
