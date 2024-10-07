@@ -142,6 +142,7 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onHostResume() {
         final Activity activity = getCurrentActivity();
@@ -150,7 +151,12 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
             FLog.e(ReactConstants.TAG, "no activity to register receiver");
             return;
         }
-        activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"),
+                    Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
+        }
     }
     @Override
     public void onHostPause() {
